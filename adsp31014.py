@@ -25,13 +25,11 @@ class FTest:
 
     @staticmethod
     def print_header():
-        print(f"{'-' * 96}")
-        print(f"{'Predictor':<15}{'SSE':<10}{'Size':<10}{'F-Statistic':<15}{'F-Significance':<17}{'Removed Step':<15}{'Removed Total':<15}")
-        print(f"{'-' * 96}")
-
+        print(f"|{'Predictor':<24}|{'SSE':<10}|{'Size':<10}|{'F-Statistic':<15}|{'F-Significance':<17}|{'F DoF 1':<15}|{'F DoF 2':<15}|")
+        print(f"|{'-' * 24}|{'-' * 10}|{'-' * 10}|{'-' * 15}|{'-' * 17}|{'-' * 15}|{'-' * 15}|")
 
     def print(self):
-        print(f"{self.predictor:<15}{self.sse:<10.4f}{self.size:<10}{self.f_stat:<15.4f}{self.f_sig:<17.4e}{self.num_removed_step:<15}{self.num_removed_total:<15}")
+        print(f"|{self.predictor:<24}|{self.sse:<10.4f}|{self.size:<10}|{self.f_stat:<15.4f}|{self.f_sig:<17.4e}|{self.num_removed_step:<15}|{self.num_removed_total:<15}|")
 
 
 
@@ -164,10 +162,10 @@ def backward_selection(target, continuous_predictors, categorical_predictors, th
     outer_sse = results.residual_variance * results.residual_degree_freedom # Sum of Square Error
 
 
-    history = [{"step": 0, "test": FTest('None', outer_sse, outer_model_size, np.nan, np.nan, np.nan, np.nan) }]
-
+    history = [FTest('None', outer_sse, outer_model_size, np.nan, np.nan, np.nan, np.nan)]
+    f_tests = []
     for step in range(len(original_predictor_labels)):
-        f_tests = []
+        f_tests.clear()
 
         # Test everything except Intercept
         for predictor in original_predictor_labels:
@@ -203,7 +201,7 @@ def backward_selection(target, continuous_predictors, categorical_predictors, th
             outer_sse = worst_predictor.sse
             outer_model_size = worst_predictor.size
 
-            history.append({"step": step + 1, "test": worst_predictor})
+            history.append(worst_predictor)
 
             drop_cols = [col for col in predictor_labels if remove in col]
             predictors = predictors.drop(columns=drop_cols)
@@ -213,4 +211,4 @@ def backward_selection(target, continuous_predictors, categorical_predictors, th
         else:
             break
 
-    return history
+    return f_tests, history[1:]
