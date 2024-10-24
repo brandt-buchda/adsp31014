@@ -1,5 +1,9 @@
 .data/
 .venv/
 .idea/
+__pycache__/
 
+data/
 reference/
+
+*.pdf
