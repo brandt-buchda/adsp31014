@@ -213,4 +213,4 @@ def backward_selection(target, continuous_predictors, categorical_predictors, th
         else:
             break
 
-    return history.pop()
+    return history
