@@ -12,7 +12,6 @@ class LinearRegressionResults:
         self.non_aliased_parameters = non_aliased_parameters
     pass
 
-
 class FTest:
     def __init__(self, predictor, sse, size, f_stat, f_sig, num_removed_step, num_removed_total):
         self.predictor = predictor
@@ -30,8 +29,6 @@ class FTest:
 
     def print(self):
         print(f"|{self.predictor:<24}|{self.sse:<10.4f}|{self.size:<10}|{self.f_stat:<15.4f}|{self.f_sig:<17.4e}|{self.num_removed_step:<15}|{self.num_removed_total:<15}|")
-
-
 
 def sweep_operator (pDim, inputM, origDiag, sweepCol = None, tol = 1e-7):
     ''' Implement the SWEEP operator
@@ -73,7 +70,6 @@ def sweep_operator (pDim, inputM, origDiag, sweepCol = None, tol = 1e-7):
             aliasParam.append(k)
         A = ANext
     return (A, aliasParam, nonAliasParam)
-
 
 def linear_regression (X, y, tolSweep = 1e-7):
     ''' Train a linear regression model
@@ -212,3 +208,9 @@ def backward_selection(target, continuous_predictors, categorical_predictors, th
             break
 
     return f_tests, history[1:]
+
+def observation_leverage(X, regression_results: LinearRegressionResults):
+    generalized_inverse = regression_results.covariance_matrix / regression_results.residual_variance
+    hessian_matrix = X.dot(generalized_inverse).dot(X.transpose())
+
+    return pd.Series(np.diag(hessian_matrix), index=hessian_matrix.index, name='leverage')
