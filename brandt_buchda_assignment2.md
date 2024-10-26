@@ -22,3 +22,10 @@ The following features were selected for removal:
 |Half Baths              |0.0242    |16        |1.1058         |2.9365e-01       |1              |386            |
 |Roof Material           |0.0246    |14        |2.7794         |6.3317e-02       |2              |387            |
 |Age                     |0.0248    |13        |3.1723         |7.5676e-02       |1              |389            |
+
+## Part B
+![leverage.png](plots%2Fleverage.png)
+
+## Part C
+
+## Part D
