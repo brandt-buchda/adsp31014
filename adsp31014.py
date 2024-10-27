@@ -214,3 +214,28 @@ def observation_leverage(X, regression_results: LinearRegressionResults):
     hessian_matrix = X.dot(generalized_inverse).dot(X.transpose())
 
     return pd.Series(np.diag(hessian_matrix), index=hessian_matrix.index, name='leverage')
+
+def simple_residual(target, predictions):
+    return target - predictions
+
+def standardized_residual(simple_residual, residual_variance, leverage):
+    return simple_residual / np.sqrt(residual_variance * (1.0 - leverage))
+
+def deleted_residual(simple_residual, leverage):
+    return simple_residual / (1.0 - leverage)
+
+def studentized_residual(simple_residual, leverage, target, predictors):
+
+    y_residual_deleted_direct = []
+    deleted_residual_variance = []
+    for i in range(len(target)):
+        X_drop_i = predictors.drop(index=i)
+        y_drop_i = target.drop(index=i)
+
+        result = linear_regression(X_drop_i, y_drop_i)
+        deleted_residual_variance.append(result.residual_variance)
+
+        y_prediction_i = predictors.loc[i].dot(result.parameter_table['Estimate'])
+        y_residual_deleted_direct.append(target.loc[i] - y_prediction_i)
+
+    return simple_residual / np.sqrt(deleted_residual_variance * (1.0 - leverage))
