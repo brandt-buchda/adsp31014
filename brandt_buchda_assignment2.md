@@ -27,5 +27,7 @@ The following features were selected for removal:
 ![leverage.png](plots%2Fleverage.png)
 
 ## Part C
+![residuals.png](plots%2Fresiduals.png)
 
 ## Part D
+The levearge value cutoff is 0.15 and the 
