@@ -30,4 +30,23 @@ The following features were selected for removal:
 ![residuals.png](plots%2Fresiduals.png)
 
 ## Part D
-The levearge value cutoff is 0.15 and the 
+Selecting a leverage cutoff value of 0.15 selects the following observations for removal:
+
+| Leverage | Intercept | Tract Median Income | Garage Size | Land Acre | Full Baths | Bedrooms | Building Square Feet | Basement | Wall Material | Prediction | Sale Price |
+| -------- | --------- | ------------------- | ----------- | --------- | ---------- | -------- | -------------------- | -------- | ------------- | ---------- | ---------- |
+| 0.5184   | 1         | 142.6               | 2.5         | 0.06777   | 5          | 5        | 5.956                | Full     | Stucco        | 3202       | 1950       |
+| 0.5184   | 1         | 94.6                | 3           | 0.1033    | 4          | 4        | 3.952                | Full     | Stucco        | 2169       | 3675       |
+
+These two observations are the only observations with Stucco for wall material therefore they apply significant leverage
+to the prediction.
+
+The following are the outlier observations that appear outside the Q1 minus 1.5 * the Inter quartile range in one or 
+more of the residuals. In most case, the observation appears as an outlier in all forms of residual
+
+| Sale Price | Prediction | Intercept | Tract Median Income | Building Square Feet | Land Acre | Garage Size | Bedrooms | Full Baths | Wall Material | Basement |
+| ---------- | ---------- | --------- | ------------------- | -------------------- | --------- | ----------- | -------- | ---------- | ------------- | -------- |
+| 700        | 1411       | 1         | 132.2               | 2.52                 | 0.0576    | 3           | 3        | 3          | Frame         | Full     |
+| 895        | 2464       | 1         | 138.9               | 3.78                 | 0.07117   | 2           | 5        | 5          | Masonry       | Full     |
+| 3000       | 1.799e+04  | 1         | 128.2               | 8.306                | 0.08386   | 3           | 5        | 5          | Masonry       | Full     |
+| 1200       | 3322       | 1         | 141.8               | 5.019                | 0.0781    | 2           | 5        | 4          | Masonry       | Partial  |
+
